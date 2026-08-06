@@ -80,7 +80,7 @@
 /* ── Mid Grid ── */
 .dash-mid-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 0.8fr;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
 
@@ -91,59 +91,215 @@
   font-size: 0.9rem; font-weight: 700; color: #fff; flex: 1;
 }
 
-/* Progress card */
-.dash-progress-card { padding: 20px; }
-.dash-progress-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 14px; }
-.dash-progress-item { display: flex; flex-direction: column; gap: 6px; }
-.dash-progress-top  { display: flex; align-items: center; justify-content: space-between; }
-.dash-progress-label { font-size: 0.78rem; color: var(--text-secondary); font-weight: 500; }
-.dash-progress-value { font-size: 0.78rem; font-weight: 700; }
-.dash-progress-pct   { font-size: 0.65rem; color: var(--text-muted); }
-
-.dash-goal-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 12px;
-  background: rgba(200,241,53,0.08);
-  border: 1px solid rgba(200,241,53,0.18);
-  border-radius: 99px;
-  font-size: 0.75rem; color: rgba(255,255,255,0.55);
+/* ── Today's Nutrition (Macro List) ── */
+.dash-macro-card { padding: 22px; display: flex; flex-direction: column; gap: 16px; justify-content: space-between; }
+.dash-macro-list { display: flex; flex-direction: column; gap: 14px; }
+.dash-macro-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-.dash-goal-badge strong { color: var(--lime); text-transform: capitalize; }
-
-/* Actions card */
-.dash-actions-card { padding: 20px; }
-.dash-action-list { display: flex; flex-direction: column; gap: 10px; }
-.dash-action-item {
-  display: flex; align-items: center; gap: 12px;
-  padding: 10px 12px;
-  border-radius: var(--radius-md);
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  cursor: pointer;
-  transition: all var(--transition);
-}
-.dash-action-item:hover {
-  background: rgba(200,241,53,0.06);
-  border-color: rgba(200,241,53,0.18);
-  transform: translateX(4px);
-}
-.dash-action-icon {
-  width: 38px; height: 38px; border-radius: 10px;
+.dash-macro-icon {
+  width: 34px; height: 34px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
-.dash-action-text { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-.dash-action-label { font-size: 0.82rem; font-weight: 600; color: #fff; }
-.dash-action-sub   { font-size: 0.7rem; color: var(--text-muted); }
-
-/* Tip card */
-.dash-tip-card { padding: 20px; }
-.dash-tip-body { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; padding: 12px 0; }
-.dash-tip-icon-wrap {
-  width: 60px; height: 60px; border-radius: 16px;
-  display: flex; align-items: center; justify-content: center;
+.dash-macro-info {
+  flex: 1;
+  display: flex; flex-direction: column; gap: 4px;
 }
-.dash-tip-text { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+.dash-macro-top {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.dash-macro-label { font-size: 0.85rem; font-weight: 600; color: #fff; }
+.dash-macro-nums { font-size: 0.8rem; }
+.dash-macro-sep { color: var(--text-muted); margin-left: 4px; }
+.dash-macro-rem {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 0.65rem; color: var(--text-muted);
+}
+.dash-macro-pct { font-weight: 700; color: var(--text-secondary); }
+
+.dash-goal-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px;
+  background: rgba(200,241,53,0.08);
+  border: 1px solid rgba(200,241,53,0.18);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem; color: rgba(255,255,255,0.7);
+  margin-top: auto;
+}
+.dash-goal-badge strong { color: var(--lime); text-transform: capitalize; }
+
+/* ── 7-Day Calorie Heatmap ── */
+.dash-heatmap-card { padding: 22px; display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+.dash-heatmap {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  height: 170px;
+  padding: 10px 0 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.dash-heat-col {
+  display: flex; flex-direction: column; align-items: center; flex: 1; gap: 6px;
+}
+.dash-heat-bar-wrap {
+  width: 100%; max-width: 26px; height: 110px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 6px;
+  display: flex; align-items: flex-end; justify-content: center;
+  overflow: hidden;
+}
+.dash-heat-bar {
+  width: 100%; border-radius: 6px; transition: height 0.8s ease;
+}
+.dash-heat-kcal { font-size: 0.7rem; font-weight: 600; color: #fff; margin-bottom: 2px; }
+.dash-heat-day { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
+.dash-heat-date { font-size: 0.85rem; font-weight: 700; color: rgba(255,255,255,0.5); }
+
+.dash-heat-col.heat-today .dash-heat-bar-wrap { border: 1px solid rgba(200,241,53,0.25); background: rgba(200,241,53,0.03); }
+
+.dash-heatmap-legend {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  margin-top: 4px;
+}
+.dash-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; color: var(--text-muted); }
+.dash-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ── Calendar Card ── */
+/* ── Calendar Card ── */
+.dash-calendar-card {
+  padding: 12px 40px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dash-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.dash-cal-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dash-cal-title h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+}
+.dash-cal-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 99px;
+  padding: 2px 4px;
+}
+.dash-cal-btn {
+  background: rgba(255,255,255,0.05);
+  border: none;
+  color: #fff;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.dash-cal-btn:hover {
+  background: var(--lavender);
+  color: #000;
+}
+.dash-cal-btn svg { width: 14px; height: 14px; }
+.dash-cal-month {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #fff;
+  min-width: 80px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.dash-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px 4px;
+}
+.dash-cal-dow {
+  text-align: center;
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0px;
+}
+.dash-cal-day {
+  aspect-ratio: 1.45;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  position: relative;
+  transition: all var(--transition);
+}
+.dash-cal-day.empty {
+  background: transparent;
+  border: none;
+}
+.dash-cal-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  z-index: 2;
+}
+.dash-cal-dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 2px;
+}
+.dash-cal-day.status-perfect { background: rgba(200,241,53,0.1); border-color: rgba(200,241,53,0.3); }
+.dash-cal-day.status-perfect .dash-cal-date { color: var(--lime); }
+.dash-cal-day.status-perfect .dash-cal-dot { background: var(--lime); box-shadow: 0 0 6px var(--lime); }
+
+.dash-cal-day.status-good { background: rgba(196,181,253,0.1); border-color: rgba(196,181,253,0.3); }
+.dash-cal-day.status-good .dash-cal-date { color: var(--lavender); }
+.dash-cal-day.status-good .dash-cal-dot { background: var(--lavender); box-shadow: 0 0 6px var(--lavender); }
+
+.dash-cal-day.is-today {
+  border: 2px solid #fff;
+}
+.dash-cal-day.is-today .dash-cal-date {
+  color: #fff;
+  font-weight: 800;
+}
+.dash-cal-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 0px;
+}
+.dash-cal-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+.dash-cal-dot-leg {
+  width: 6px; height: 6px; border-radius: 50%;
+}
+.dash-cal-dot-leg.perfect { background: var(--lime); }
+.dash-cal-dot-leg.good { background: var(--lavender); }
+.dash-cal-dot-leg.none { background: rgba(255,255,255,0.1); }
 
 /* ── Weekly Summary Cards ── */
 .dash-weekly-grid {
