@@ -1,0 +1,78 @@
+.macro-rings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.macro-rings-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.macro-rings-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.macro-ring-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.macro-ring-circle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-svg { overflow: visible; }
+
+.macro-ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.macro-ring-pct {
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.macro-ring-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+.macro-ring-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.macro-ring-value { font-size: 0.75rem; font-weight: 600; color: var(--text-primary); }
+.macro-ring-target { font-size: 0.65rem; color: var(--text-muted); }
+
+/* Progress bars */
+.macro-bars { display: flex; flex-direction: column; gap: 8px; }
+.macro-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.macro-bar-label { font-size: 0.75rem; color: var(--text-secondary); width: 55px; flex-shrink: 0; }
+.macro-bar-pct   { font-size: 0.75rem; color: var(--text-muted); width: 32px; text-align: right; flex-shrink: 0; }
+
+@media (max-width: 768px) {
+  .macro-rings-grid { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .macro-ring-item .ring-svg { width: 56px !important; height: 56px !important; }
+}

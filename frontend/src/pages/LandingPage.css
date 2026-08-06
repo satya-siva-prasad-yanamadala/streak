@@ -1,0 +1,105 @@
+/* ── Root ─────────────────────────────────────────────────────── */
+.lp-root{min-height:100vh;background:#03030A;color:#fff;font-family:'Space Grotesk',sans-serif;overflow-x:hidden;cursor:none}
+#lp-cursor{position:fixed;width:12px;height:12px;background:#fff;border-radius:50%;pointer-events:none;z-index:9999;transition:transform .15s;mix-blend-mode:difference}
+#lp-ring{position:fixed;width:44px;height:44px;border:1.5px solid rgba(139,92,246,.6);border-radius:50%;pointer-events:none;z-index:9998;transition:transform .35s cubic-bezier(.23,1,.32,1)}
+.lp-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.75;pointer-events:none}
+
+/* ── Nav ──────────────────────────────────────────────────────── */
+.lp-nav{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:200;display:flex;align-items:center;gap:36px;padding:12px 28px;background:rgba(3,3,10,.65);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:100px;white-space:nowrap}
+.lp-logo{font-size:1.1rem;font-weight:700;background:linear-gradient(135deg,#8B5CF6,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lp-nav-links{display:flex;gap:28px}
+.lp-nav-links a{color:rgba(255,255,255,.55);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .3s;cursor:none}
+.lp-nav-links a:hover{color:#fff}
+
+/* ── Buttons ──────────────────────────────────────────────────── */
+.lp-btn-primary{padding:11px 28px;background:linear-gradient(135deg,#8B5CF6,#06B6D4);border:none;border-radius:100px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600;cursor:none;position:relative;overflow:hidden;transition:transform .2s,box-shadow .3s;text-decoration:none;display:inline-flex;align-items:center}
+.lp-btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#06B6D4,#8B5CF6);opacity:0;transition:opacity .3s}
+.lp-btn-primary:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 20px 50px rgba(139,92,246,.4)}
+.lp-btn-primary:hover::before{opacity:1}
+.lp-btn-primary span{position:relative;z-index:1}
+.lp-btn-ghost{padding:11px 28px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:100px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:500;cursor:none;backdrop-filter:blur(10px);transition:all .3s;text-decoration:none;display:inline-flex;align-items:center}
+.lp-btn-ghost:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.2);transform:translateY(-2px)}
+.lp-btn-xl{font-size:1.1rem;padding:16px 44px}
+
+/* ── Hero ─────────────────────────────────────────────────────── */
+.lp-hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px}
+.lp-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;transition:transform 1.5s cubic-bezier(.23,1,.32,1)}
+.lp-orb-1{width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,.25),transparent 70%);top:-5%;left:-8%}
+.lp-orb-2{width:400px;height:400px;background:radial-gradient(circle,rgba(6,182,212,.2),transparent 70%);top:15%;right:-8%}
+.lp-orb-3{width:320px;height:320px;background:radial-gradient(circle,rgba(16,185,129,.15),transparent 70%);bottom:5%;left:28%}
+.lp-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);border-radius:100px;font-size:.75rem;font-weight:500;color:#8B5CF6;margin-bottom:36px;animation:lpFadeUp .8s ease both}
+.lp-badge-dot{width:6px;height:6px;background:#8B5CF6;border-radius:50%;animation:lpPulse 2s infinite}
+.lp-h1{font-size:clamp(3.5rem,10vw,9rem);font-weight:700;line-height:1;letter-spacing:-0.03em;margin-bottom:24px;animation:lpFadeUp .8s .1s ease both}
+.lp-grad{background:linear-gradient(135deg,#fff 0%,#8B5CF6 40%,#06B6D4 70%,#10B981 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% 200%;animation:lpGradShift 4s ease infinite}
+.lp-hero-sub{font-size:clamp(1rem,2vw,1.2rem);color:rgba(255,255,255,.5);max-width:520px;line-height:1.7;margin-bottom:44px;animation:lpFadeUp .8s .2s ease both;font-family:'Inter',sans-serif;font-weight:300}
+.lp-hero-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;animation:lpFadeUp .8s .3s ease both}
+
+/* ── Stats ────────────────────────────────────────────────────── */
+.lp-stats-strip{position:relative;z-index:1;padding:56px 24px;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.01)}
+.lp-stats-inner{max-width:800px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:32px;text-align:center}
+.lp-stat-num{display:block;font-size:3rem;font-weight:700;background:linear-gradient(135deg,#8B5CF6,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.lp-stat-label{font-size:.8rem;color:rgba(255,255,255,.4);font-family:'Inter',sans-serif;margin-top:6px;display:block}
+
+/* ── Features ─────────────────────────────────────────────────── */
+.lp-features{position:relative;z-index:1;padding:120px 24px}
+.lp-features-header{max-width:1100px;margin:0 auto 72px;display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap}
+.lp-section-label{font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#8B5CF6;margin-bottom:14px}
+.lp-section-title{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:20px}
+.lp-section-sub{font-size:.95rem;color:rgba(255,255,255,.45);max-width:440px;line-height:1.7;font-family:'Inter',sans-serif;font-weight:300}
+.lp-feat-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.lp-feat-card{padding:36px 32px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:24px;backdrop-filter:blur(20px);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.23,1,.32,1),border-color .3s,box-shadow .4s;cursor:default}
+.lp-feat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.05) 0%,transparent 60%);opacity:0;transition:opacity .3s}
+.lp-feat-card:hover{transform:translateY(-8px) scale(1.01);border-color:rgba(255,255,255,.14);box-shadow:0 40px 80px rgba(0,0,0,.4)}
+.lp-feat-card:hover::before{opacity:1}
+.lp-feat-card h3{font-size:1.15rem;font-weight:600;margin-bottom:10px;color:#fff}
+.lp-feat-card p{font-size:.875rem;color:rgba(255,255,255,.45);line-height:1.7;font-family:'Inter',sans-serif;font-weight:300}
+.lp-feat-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:22px;position:relative}
+.lp-fi-violet {background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.25)}
+.lp-fi-cyan   {background:rgba(6,182,212,.15); border:1px solid rgba(6,182,212,.25)}
+.lp-fi-emerald{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.25)}
+.lp-feat-glow{position:absolute;bottom:-40px;right:-40px;width:150px;height:150px;border-radius:50%;filter:blur(50px);opacity:.18}
+.lp-fg-violet {background:#8B5CF6}
+.lp-fg-cyan   {background:#06B6D4}
+.lp-fg-emerald{background:#10B981}
+
+/* ── How it works ─────────────────────────────────────────────── */
+.lp-how{position:relative;z-index:1;padding:120px 24px;max-width:1100px;margin:0 auto}
+.lp-how-header{text-align:center;margin-bottom:72px}
+.lp-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
+.lp-steps::before{content:'';position:absolute;top:36px;left:16%;right:16%;height:1px;background:linear-gradient(90deg,transparent,#8B5CF6,#06B6D4,transparent)}
+.lp-step{text-align:center;padding:24px}
+.lp-step-num{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(6,182,212,.2));border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.5rem;backdrop-filter:blur(10px);transition:box-shadow .3s}
+.lp-step:hover .lp-step-num{box-shadow:0 0 40px rgba(139,92,246,.3)}
+.lp-step h3{font-size:1.05rem;font-weight:600;margin-bottom:8px;color:#fff}
+.lp-step p{font-size:.85rem;color:rgba(255,255,255,.4);line-height:1.7;font-family:'Inter',sans-serif}
+
+/* ── CTA ──────────────────────────────────────────────────────── */
+.lp-cta{position:relative;z-index:1;padding:160px 24px;text-align:center}
+.lp-cta-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:400px;background:radial-gradient(ellipse at center,rgba(139,92,246,.12),transparent 70%);pointer-events:none}
+.lp-cta-title{font-size:clamp(2.5rem,6vw,5rem);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:20px}
+.lp-cta-sub{font-size:1.05rem;color:rgba(255,255,255,.45);margin-bottom:44px;font-family:'Inter',sans-serif;font-weight:300}
+
+/* ── Footer ───────────────────────────────────────────────────── */
+.lp-footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid rgba(255,255,255,.06);text-align:center}
+.lp-footer p{color:rgba(255,255,255,.2);font-size:.8rem;font-family:'Inter',sans-serif}
+
+/* ── Scroll reveal ────────────────────────────────────────────── */
+.lp-reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.23,1,.32,1),transform .8s cubic-bezier(.23,1,.32,1)}
+.lp-reveal.lp-visible{opacity:1;transform:none}
+.lp-reveal-d1{transition-delay:.1s}
+.lp-reveal-d2{transition-delay:.2s}
+
+/* ── Keyframes ────────────────────────────────────────────────── */
+@keyframes lpFadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes lpPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.5)}}
+@keyframes lpGradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media(max-width:768px){
+  .lp-nav{gap:16px;padding:10px 18px}
+  .lp-nav-links{display:none}
+  .lp-feat-grid,.lp-steps{grid-template-columns:1fr}
+  .lp-steps::before{display:none}
+  .lp-features-header{flex-direction:column}
+  .lp-stats-inner{grid-template-columns:1fr;gap:24px}
+}

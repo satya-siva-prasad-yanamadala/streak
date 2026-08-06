@@ -1,0 +1,62 @@
+.dashboard-page { display: flex; flex-direction: column; gap: 20px; }
+
+.dashboard-loading {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 16px; height: 60vh; color: rgba(255,255,255,0.3);
+}
+
+.dashboard-stats-row { display: grid; grid-template-columns: repeat(6,1fr); gap: 12px; }
+
+.dashboard-stat-card {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 6px; padding: 18px 10px; text-align: center;
+  transition: transform var(--transition), box-shadow var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.dashboard-stat-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03), transparent);
+  pointer-events: none;
+}
+.dashboard-stat-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+.dashboard-stat-icon  { font-size: 1.6rem; filter: drop-shadow(0 0 8px currentColor); }
+.dashboard-stat-label { font-size: 0.62rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.07em; }
+.dashboard-stat-value { font-size: 1rem; font-weight: 700; }
+
+.dashboard-charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.dashboard-chart-card {
+  padding: 22px;
+  display: flex; flex-direction: column;
+  gap: 16px; min-height: 290px;
+}
+.dashboard-chart-header {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap; gap: 8px;
+}
+.dashboard-chart-header h3 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  background: linear-gradient(135deg, #8B5CF6, #06B6D4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.chart-wrapper { flex: 1; min-height: 180px; }
+
+/* Doughnut legend */
+.donut-legend { display: flex; flex-direction: column; gap: 8px; min-width: 140px; }
+.donut-legend-item { display: flex; align-items: center; gap: 8px; }
+.donut-legend-dot  { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 6px currentColor; }
+.donut-legend-label { font-size: 0.75rem; color: rgba(255,255,255,0.45); flex: 1; }
+.donut-legend-value { font-size: 0.75rem; font-weight: 600; color: #fff; }
+
+@media (max-width: 1200px) { .dashboard-stats-row { grid-template-columns: repeat(3,1fr); } }
+@media (max-width: 900px)  { .dashboard-charts-row { grid-template-columns: 1fr; } }
+@media (max-width: 600px)  { .dashboard-stats-row { grid-template-columns: repeat(2,1fr); } }

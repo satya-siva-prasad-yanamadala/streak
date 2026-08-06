@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Streak — Track. Evolve. Dominate.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --violet:#8B5CF6;--cyan:#06B6D4;--emerald:#10B981;--amber:#F59E0B;
+  --bg:#03030A;--glass:rgba(255,255,255,0.04);--border:rgba(255,255,255,0.08);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:#fff;font-family:'Space Grotesk',sans-serif;cursor:none;overflow-x:hidden}
+
+/* Cursor */
+#cursor{position:fixed;width:12px;height:12px;background:#fff;border-radius:50%;pointer-events:none;z-index:9999;transition:transform .15s ease,opacity .2s;mix-blend-mode:difference}
+#cursor-ring{position:fixed;width:44px;height:44px;border:1.5px solid rgba(139,92,246,.6);border-radius:50%;pointer-events:none;z-index:9998;transition:transform .35s cubic-bezier(.23,1,.32,1)}
+body:has(.magnetic:hover) #cursor{transform:scale(2.5)}
+
+/* Canvas bg */
+#bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.7}
+
+/* Nav */
+nav{position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:100;display:flex;align-items:center;gap:40px;padding:14px 32px;background:rgba(3,3,10,.6);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:100px}
+.nav-logo{font-size:1.1rem;font-weight:700;background:linear-gradient(135deg,var(--violet),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:32px}
+.nav-links a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .3s}
+.nav-links a:hover{color:#fff}
+.nav-cta{padding:9px 22px;background:linear-gradient(135deg,var(--violet),var(--cyan));border:none;border-radius:100px;color:#fff;font-size:.85rem;font-weight:600;cursor:none;transition:transform .2s,box-shadow .2s}
+.nav-cta:hover{transform:scale(1.05);box-shadow:0 0 30px rgba(139,92,246,.4)}
+
+/* Sections */
+section{position:relative;z-index:1}
+
+/* Hero */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);border-radius:100px;font-size:.75rem;font-weight:500;color:var(--violet);margin-bottom:40px;animation:fadeUp .8s ease both}
+.hero-badge span{width:6px;height:6px;background:var(--violet);border-radius:50%;animation:pulse 2s infinite}
+h1{font-size:clamp(3.5rem,10vw,9rem);font-weight:700;line-height:1;letter-spacing:-0.03em;margin-bottom:28px;animation:fadeUp .8s .1s ease both}
+.gradient-text{background:linear-gradient(135deg,#fff 0%,var(--violet) 40%,var(--cyan) 70%,var(--emerald) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% 200%;animation:gradShift 4s ease infinite}
+@keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero-sub{font-size:clamp(1rem,2vw,1.2rem);color:rgba(255,255,255,.5);max-width:520px;line-height:1.7;margin-bottom:48px;animation:fadeUp .8s .2s ease both;font-family:'Inter',sans-serif;font-weight:300}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;animation:fadeUp .8s .3s ease both}
+.btn-primary{padding:15px 36px;background:linear-gradient(135deg,var(--violet),var(--cyan));border:none;border-radius:100px;color:#fff;font-size:1rem;font-weight:600;cursor:none;position:relative;overflow:hidden;transition:transform .2s,box-shadow .3s}
+.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--cyan),var(--violet));opacity:0;transition:opacity .3s}
+.btn-primary:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 20px 60px rgba(139,92,246,.4)}
+.btn-primary:hover::before{opacity:1}
+.btn-primary span{position:relative;z-index:1}
+.btn-ghost{padding:15px 36px;background:var(--glass);border:1px solid var(--border);border-radius:100px;color:#fff;font-size:1rem;font-weight:500;cursor:none;backdrop-filter:blur(10px);transition:background .3s,border-color .3s,transform .2s}
+.btn-ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);transform:translateY(-2px)}
+
+/* Floating orbs */
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:orbFloat 8s ease-in-out infinite}
+.orb-1{width:500px;height:500px;background:radial-gradient(circle,rgba(139,92,246,.25),transparent 70%);top:-10%;left:-10%;animation-delay:0s}
+.orb-2{width:400px;height:400px;background:radial-gradient(circle,rgba(6,182,212,.2),transparent 70%);top:20%;right:-10%;animation-delay:-3s}
+.orb-3{width:300px;height:300px;background:radial-gradient(circle,rgba(16,185,129,.15),transparent 70%);bottom:0;left:30%;animation-delay:-6s}
+@keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
+
+/* Stats strip */
+.stats-strip{padding:60px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(255,255,255,.01)}
+.stats-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:40px;text-align:center}
+.stat-num{font-size:3rem;font-weight:700;background:linear-gradient(135deg,var(--violet),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
+.stat-label{font-size:.85rem;color:rgba(255,255,255,.4);font-family:'Inter',sans-serif;margin-top:6px}
+
+/* Features */
+#features{padding:120px 24px}
+.section-label{font-size:.75rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--violet);margin-bottom:16px}
+.section-title{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:24px}
+.section-sub{font-size:1rem;color:rgba(255,255,255,.5);max-width:480px;line-height:1.7;font-family:'Inter',sans-serif;font-weight:300}
+.features-header{max-width:1100px;margin:0 auto 80px;display:flex;justify-content:space-between;align-items:flex-end;gap:40px;flex-wrap:wrap}
+.features-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feat-card{padding:36px;background:var(--glass);border:1px solid var(--border);border-radius:24px;backdrop-filter:blur(20px);position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.23,1,.32,1),border-color .3s,box-shadow .4s;cursor:none}
+.feat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.05) 0%,transparent 60%);opacity:0;transition:opacity .3s}
+.feat-card:hover{transform:translateY(-8px) scale(1.01);border-color:rgba(255,255,255,.15);box-shadow:0 40px 80px rgba(0,0,0,.4)}
+.feat-card:hover::before{opacity:1}
+.feat-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:24px;position:relative}
+.feat-icon::after{content:'';position:absolute;inset:0;border-radius:16px;filter:blur(12px);z-index:-1;opacity:.5}
+.fi-violet{background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.2)}
+.fi-violet::after{background:var(--violet)}
+.fi-cyan{background:rgba(6,182,212,.15);border:1px solid rgba(6,182,212,.2)}
+.fi-cyan::after{background:var(--cyan)}
+.fi-emerald{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.2)}
+.fi-emerald::after{background:var(--emerald)}
+.feat-card h3{font-size:1.2rem;font-weight:600;margin-bottom:12px}
+.feat-card p{font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.7;font-family:'Inter',sans-serif;font-weight:300}
+.feat-glow{position:absolute;bottom:-40px;right:-40px;width:150px;height:150px;border-radius:50%;filter:blur(50px);opacity:.2}
+.fg-violet{background:var(--violet)}
+.fg-cyan{background:var(--cyan)}
+.fg-emerald{background:var(--emerald)}
+
+/* How it works */
+#howitworks{padding:120px 24px;background:linear-gradient(180deg,transparent,rgba(139,92,246,.03) 50%,transparent)}
+.how-inner{max-width:1100px;margin:0 auto}
+.how-header{text-align:center;margin-bottom:80px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
+.steps::before{content:'';position:absolute;top:36px;left:16%;right:16%;height:1px;background:linear-gradient(90deg,transparent,var(--violet),var(--cyan),transparent)}
+.step{text-align:center;padding:24px}
+.step-num{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(6,182,212,.2));border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:1.5rem;position:relative;backdrop-filter:blur(10px)}
+.step-num::after{content:'';position:absolute;inset:-1px;border-radius:50%;background:linear-gradient(135deg,var(--violet),var(--cyan));z-index:-1;opacity:0;transition:opacity .3s;filter:blur(8px)}
+.step:hover .step-num::after{opacity:.6}
+.step h3{font-size:1.1rem;font-weight:600;margin-bottom:10px}
+.step p{font-size:.85rem;color:rgba(255,255,255,.4);line-height:1.7;font-family:'Inter',sans-serif}
+
+/* CTA */
+#cta{padding:160px 24px;text-align:center;position:relative;overflow:hidden}
+.cta-inner{max-width:700px;margin:0 auto;position:relative;z-index:1}
+.cta-title{font-size:clamp(2.5rem,6vw,5rem);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:24px}
+.cta-sub{font-size:1.1rem;color:rgba(255,255,255,.5);margin-bottom:48px;font-family:'Inter',sans-serif;font-weight:300}
+.cta-bg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:400px;background:radial-gradient(ellipse at center,rgba(139,92,246,.15),transparent 70%);pointer-events:none}
+
+/* Footer */
+footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center}
+footer p{color:rgba(255,255,255,.25);font-size:.8rem;font-family:'Inter',sans-serif}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.5)}}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.23,1,.32,1),transform .8s cubic-bezier(.23,1,.32,1)}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
+/* Noise texture */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9997;opacity:.4}
+
+/* Responsive */
+@media(max-width:768px){
+  nav{gap:20px;padding:12px 20px}
+  .nav-links{display:none}
+  .features-grid,.steps{grid-template-columns:1fr}
+  .steps::before{display:none}
+  .features-header{flex-direction:column}
+  .stats-inner{grid-template-columns:1fr;gap:24px}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="bgCanvas"></canvas>
+
+<nav>
+  <div class="nav-logo">⚡ Streak</div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#howitworks">How it works</a>
+    <a href="#cta">Get started</a>
+  </div>
+  <button class="nav-cta magnetic">Start free</button>
+</nav>
+
+<section id="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="hero-badge"><span></span>AI-Powered Daily Tracker</div>
+  <h1 class="gradient-text">Track.<br>Evolve.<br>Dominate.</h1>
+  <p class="hero-sub">The most intelligent daily tracker for gym nutrition and finances. Powered by real AI — not guesses.</p>
+  <div class="hero-actions">
+    <button class="btn-primary magnetic"><span>Start your streak →</span></button>
+    <button class="btn-ghost magnetic">Watch demo</button>
+  </div>
+</section>
+
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="reveal">
+      <span class="stat-num" data-target="2800">0</span>
+      <span class="stat-label">kcal tracked daily avg</span>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <span class="stat-num" data-target="98">0</span>
+      <span class="stat-label">% AI accuracy on macros</span>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <span class="stat-num" data-target="30">0</span>
+      <span class="stat-label">day streak records broken</span>
+    </div>
+  </div>
+</div>
+
+<section id="features">
+  <div class="features-header">
+    <div>
+      <div class="section-label reveal">What Streak offers</div>
+      <h2 class="section-title reveal reveal-delay-1">Everything you need.<br>Nothing you don't.</h2>
+    </div>
+    <p class="section-sub reveal reveal-delay-2">Three powerful modules working in harmony — gym, nutrition, and finance — all in one intelligent platform.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feat-card reveal">
+      <div class="feat-icon fi-violet">🏋️</div>
+      <h3>Gym & Nutrition</h3>
+      <p>Log meals naturally in plain language. Our AI knows every food — from boiled eggs to medu vada — with pin-point macro accuracy.</p>
+      <div class="feat-glow fg-violet"></div>
+    </div>
+    <div class="feat-card reveal reveal-delay-1">
+      <div class="feat-icon fi-cyan">💰</div>
+      <h3>Money Tracker</h3>
+      <p>Tell it what you spent. AI categorizes, calculates savings rate, and gives you a clear picture of your financial health every month.</p>
+      <div class="feat-glow fg-cyan"></div>
+    </div>
+    <div class="feat-card reveal reveal-delay-2">
+      <div class="feat-icon fi-emerald">📊</div>
+      <h3>Daily Analytics</h3>
+      <p>Visual trends, weekly summaries, streak tracking, and personalized AI recommendations — beautifully presented on your dashboard.</p>
+      <div class="feat-glow fg-emerald"></div>
+    </div>
+  </div>
+</section>
+
+<section id="howitworks">
+  <div class="how-inner">
+    <div class="how-header reveal">
+      <div class="section-label">Simple by design</div>
+      <h2 class="section-title" style="margin:0">How it works</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">🔐</div>
+        <h3>Create your profile</h3>
+        <p>Enter your physical stats and goals. Our engine calculates your personalised macro targets instantly.</p>
+      </div>
+      <div class="step reveal reveal-delay-1">
+        <div class="step-num">💬</div>
+        <h3>Log in plain language</h3>
+        <p>Type "3 wada, 250ml milk, 8 almonds" and Groq AI returns exact calories, protein, carbs and fats.</p>
+      </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="step-num">🚀</div>
+        <h3>Watch your streaks grow</h3>
+        <p>Daily progress, weekly trends, and AI coaching keep you consistent and on track toward your goals.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-inner">
+    <h2 class="cta-title reveal gradient-text">Ready to build<br>your streak?</h2>
+    <p class="cta-sub reveal reveal-delay-1">Join thousands who track smarter, not harder.</p>
+    <button class="btn-primary magnetic reveal reveal-delay-2" style="font-size:1.1rem;padding:18px 48px"><span>Start free — no credit card →</span></button>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Streak. Built with ⚡ and Groq AI.</p>
+</footer>
+
+<script>
+// ── Custom Cursor ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx-6+'px';cursor.style.top=my-6+'px'});
+(function animRing(){rx+=(mx-rx-22)*.12;ry+=(my-ry-22)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)})();
+
+// ── Magnetic buttons ──
+document.querySelectorAll('.magnetic').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const r=el.getBoundingClientRect();
+    const dx=e.clientX-r.left-r.width/2;
+    const dy=e.clientY-r.top-r.height/2;
+    el.style.transform=`translate(${dx*.2}px,${dy*.3}px)`;
+  });
+  el.addEventListener('mouseleave',()=>el.style.transform='');
+});
+
+// ── Aurora Canvas ──
+const canvas=document.getElementById('bgCanvas');
+const ctx=canvas.getContext('2d');
+let W,H,t=0;
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();
+window.addEventListener('resize',resize);
+const blobs=[
+  {x:.15,y:.2,r:.35,h:260,s:.0007,ox:.5,oy:.4},
+  {x:.8,y:.15,r:.3,h:190,s:.0009,ox:-.4,oy:.5},
+  {x:.5,y:.8,r:.4,h:160,s:.0006,ox:.3,oy:-.5},
+  {x:.9,y:.7,r:.25,h:290,s:.001,ox:-.6,oy:-.3},
+];
+function hsl(h,s,l,a){return`hsla(${h},${s}%,${l}%,${a})`}
+function drawAurora(){
+  ctx.clearRect(0,0,W,H);
+  blobs.forEach(b=>{
+    const x=(b.x+Math.sin(t*b.s+b.ox)*.18)*W;
+    const y=(b.y+Math.cos(t*b.s+b.oy)*.18)*H;
+    const r=b.r*Math.min(W,H);
+    const g=ctx.createRadialGradient(x,y,0,x,y,r);
+    g.addColorStop(0,hsl(b.h,80,60,.18));
+    g.addColorStop(.5,hsl(b.h+30,70,50,.08));
+    g.addColorStop(1,hsl(b.h+60,60,40,0));
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
+  });
+  t++;requestAnimationFrame(drawAurora);
+}
+drawAurora();
+
+// ── Mouse parallax on hero ──
+document.addEventListener('mousemove',e=>{
+  const dx=(e.clientX/window.innerWidth-.5)*20;
+  const dy=(e.clientY/window.innerHeight-.5)*20;
+  document.querySelectorAll('.orb').forEach((o,i)=>{
+    const f=(i+1)*.4;
+    o.style.transform=`translate(${dx*f}px,${dy*f}px)`;
+  });
+});
+
+// ── Scroll reveal ──
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── Count up numbers ──
+function countUp(el,target,dur=2000){
+  const start=Date.now();
+  (function tick(){
+    const p=Math.min((Date.now()-start)/dur,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent=Math.round(ease*target)+(el.dataset.suffix||'');
+    if(p<1)requestAnimationFrame(tick);
+  })();
+}
+const numObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      countUp(e.target,+e.target.dataset.target);
+      numObs.unobserve(e.target);
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('[data-target]').forEach(el=>numObs.observe(el));
+</script>
+</body>
+</html>
