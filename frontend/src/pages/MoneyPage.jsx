@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import ChatWindow from '../components/Chat/ChatWindow';
-import { Wallet, Receipt, Landmark, BarChart2 } from 'lucide-react';
+import { Wallet, Receipt, Landmark, BarChart2, TrendingUp, Banknote } from 'lucide-react';
 import api from '../utils/api';
 import './MoneyPage.css';
 
@@ -58,7 +58,28 @@ export default function MoneyPage() {
     : 0;
 
   return (
-    <div className="tracker-layout">
+    <div className="money-page-wrap">
+      {/* Hero Banner */}
+      <div className="page-hero money-hero">
+        <img src="/images/money_hero.png" alt="Finance" className="page-hero-img" />
+        <div className="page-hero-overlay money-page-overlay" />
+        <div className="page-hero-content">
+          <div className="page-hero-badge" style={{ background: 'rgba(196,181,253,0.12)', borderColor: 'rgba(196,181,253,0.28)', color: 'var(--lavender)' }}>
+            <TrendingUp size={14} /> Finance Tracker
+          </div>
+          <h1 className="page-hero-title">Grow Your <span style={{ color: 'var(--lavender)' }}>Wealth</span></h1>
+          <p className="page-hero-sub">Track expenses and monitor your savings goals</p>
+        </div>
+        <div className="page-hero-stat" style={{ background: 'rgba(196,181,253,0.10)', borderColor: 'rgba(196,181,253,0.25)' }}>
+          <Banknote size={22} color="var(--lavender)" />
+          <div>
+            <div className="page-hero-stat-val" style={{ color: 'var(--lavender)' }}>₹{(user?.monthlySalary || 0).toLocaleString('en-IN')}</div>
+            <div className="page-hero-stat-lbl">Monthly Salary</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="tracker-layout">
       {/* Chat panel */}
       <ChatWindow
         messages={messages}
@@ -149,6 +170,7 @@ export default function MoneyPage() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

@@ -1,12 +1,14 @@
-.gym-right-panel { display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
+.gym-page-wrap { display: flex; flex-direction: column; height: calc(100vh - var(--header-height) - 48px); gap: 0; }
+.gym-page-wrap .tracker-layout { flex: 1; min-height: 0; }
+
+
 
 .gym-meals-panel { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
 .gym-meals-header { display: flex; align-items: center; justify-content: space-between; }
 .gym-meals-header h3 {
-  font-size: 0.78rem; font-weight: 600;
+  font-size: 0.78rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.1em;
-  background: linear-gradient(135deg, #10B981, #06B6D4);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  color: var(--lime);
 }
 
 .gym-meals-list { display: flex; flex-direction: column; gap: 5px; }
@@ -14,23 +16,23 @@
 .gym-meal-item {
   display: flex; align-items: center; justify-content: space-between;
   padding: 9px 12px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(200,241,53,0.05);
+  border: 1px solid rgba(200,241,53,0.12);
   border-radius: 10px;
   gap: 8px;
   transition: background var(--transition), border-color var(--transition);
 }
-.gym-meal-item:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); }
+.gym-meal-item:hover { background: rgba(200,241,53,0.10); border-color: rgba(200,241,53,0.25); }
 .gym-meal-name { font-size: 0.8rem; color: #fff; text-transform: capitalize; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .gym-meal-details { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.gym-meal-details span { font-size: 0.72rem; color: rgba(255,255,255,0.35); }
-.meal-cal  { color: #F97316 !important; font-weight: 600; }
-.meal-prot { color: #6366F1 !important; font-weight: 600; }
+.gym-meal-details span { font-size: 0.72rem; color: var(--text-muted); }
+.meal-cal  { color: #FF6B35 !important; font-weight: 600; }
+.meal-prot { color: var(--lavender) !important; font-weight: 600; }
 
 .gym-meal-totals {
   display: flex; align-items: center; justify-content: space-between;
   padding: 9px 12px;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(200,241,53,0.12);
   margin-top: 4px;
 }
 .gym-meal-totals-label { font-size: 0.8rem; font-weight: 700; color: #fff; }

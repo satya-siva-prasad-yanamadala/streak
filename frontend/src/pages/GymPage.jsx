@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import ChatWindow from '../components/Chat/ChatWindow';
 import MacroRings from '../components/Dashboard/MacroRings';
-import { Utensils } from 'lucide-react';
+import { Utensils, Dumbbell, Flame } from 'lucide-react';
 import api from '../utils/api';
 import './GymPage.css';
 
@@ -76,7 +76,26 @@ export default function GymPage() {
   };
 
   return (
-    <div className="tracker-layout">
+    <div className="gym-page-wrap">
+      {/* Hero Banner */}
+      <div className="page-hero gym-hero">
+        <img src="/images/gym_hero.png" alt="Gym" className="page-hero-img" />
+        <div className="page-hero-overlay" />
+        <div className="page-hero-content">
+          <div className="page-hero-badge"><Dumbbell size={14} /> Nutrition Tracker</div>
+          <h1 className="page-hero-title">Fuel Your <span style={{ color: 'var(--lime)' }}>Performance</span></h1>
+          <p className="page-hero-sub">Log meals and track your daily macro targets</p>
+        </div>
+        <div className="page-hero-stat">
+          <Flame size={22} color="#FF6B35" />
+          <div>
+            <div className="page-hero-stat-val" style={{ color: '#FF6B35' }}>{user?.dailyCalories ?? 0}</div>
+            <div className="page-hero-stat-lbl">kcal Target</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="tracker-layout">
       {/* Chat panel */}
       <ChatWindow
         messages={messages}
@@ -135,6 +154,7 @@ export default function GymPage() {
             </div>
           )}
         </div>
+      </div>
       </div>
     </div>
   );

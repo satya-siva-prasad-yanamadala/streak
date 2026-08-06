@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
-import { Flame, Scale, Dumbbell, Ruler, Calendar, User, Activity, Wallet, Check, Edit2, Lightbulb, Target } from 'lucide-react';
+import { Flame, Scale, Dumbbell, Ruler, Calendar, User, Activity, Wallet, Check, Edit2, Lightbulb, Target, UserCircle } from 'lucide-react';
 import './ProfilePage.css';
 
 const ACTIVITY_MAP = {
@@ -55,6 +55,27 @@ export default function ProfilePage() {
 
   return (
     <div className="profile-page animate-fade-in">
+
+      {/* Hero Banner */}
+      <div className="page-hero profile-hero">
+        <img src="/images/profile_hero.png" alt="Profile" className="page-hero-img" />
+        <div className="page-hero-overlay profile-page-overlay" />
+        <div className="page-hero-content">
+          <div className="page-hero-badge" style={{ background: 'rgba(200,241,53,0.12)', borderColor: 'rgba(200,241,53,0.28)', color: 'var(--lime)' }}>
+            <UserCircle size={14} /> My Profile
+          </div>
+          <h1 className="page-hero-title">Your <span style={{ color: 'var(--lime)' }}>Identity</span></h1>
+          <p className="page-hero-sub">Personalize your targets. Your body, your rules.</p>
+        </div>
+        <div className="page-hero-stat">
+          <Flame size={22} color="var(--lime)" />
+          <div>
+            <div className="page-hero-stat-val" style={{ color: 'var(--lime)' }}>{user?.gymStreak ?? 0}</div>
+            <div className="page-hero-stat-lbl">Day Streak</div>
+          </div>
+        </div>
+      </div>
+
       <div className="profile-card glass-card">
         {/* Avatar */}
         <div className="profile-header">

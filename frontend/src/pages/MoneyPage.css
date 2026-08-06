@@ -1,11 +1,13 @@
-.money-right-panel { display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
+.money-page-wrap { display: flex; flex-direction: column; height: calc(100vh - var(--header-height) - 48px); gap: 0; }
+.money-page-wrap .tracker-layout { flex: 1; min-height: 0; }
+
+
 
 .money-summary { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
 .money-summary-title {
-  font-size: 0.78rem; font-weight: 600;
+  font-size: 0.78rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.1em;
-  background: linear-gradient(135deg, #F59E0B, #06B6D4);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  color: var(--lavender);
 }
 .money-summary-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
 
@@ -14,38 +16,38 @@
   gap: 4px; padding: 14px 8px;
   border-radius: var(--radius-md);
   border: 1px solid rgba(255,255,255,0.07);
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.04);
   text-align: center;
-  transition: transform var(--transition), border-color var(--transition);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
 }
-.money-stat:hover { transform: translateY(-2px); }
-.money-stat.salary  { border-color: rgba(139,92,246,0.2); background: rgba(139,92,246,0.06); }
-.money-stat.expense { border-color: rgba(239,68,68,0.2);  background: rgba(239,68,68,0.05); }
-.money-stat.savings { border-color: rgba(245,158,11,0.2); background: rgba(245,158,11,0.06); }
-.money-stat.savings.high { border-color: rgba(16,185,129,0.25); background: rgba(16,185,129,0.06); }
-.money-stat.savings.low  { border-color: rgba(239,68,68,0.25); }
+.money-stat:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+.money-stat.salary  { border-color: rgba(200,241,53,0.18); background: rgba(200,241,53,0.05); }
+.money-stat.expense { border-color: rgba(255,77,77,0.18);  background: rgba(255,77,77,0.05); }
+.money-stat.savings { border-color: rgba(196,181,253,0.20); background: rgba(196,181,253,0.06); }
+.money-stat.savings.high { border-color: rgba(200,241,53,0.22); background: rgba(200,241,53,0.06); }
+.money-stat.savings.low  { border-color: rgba(255,77,77,0.22); }
 
 .money-stat-icon  { font-size: 1.2rem; }
-.money-stat-label { font-size: 0.62rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.06em; }
+.money-stat-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
 .money-stat-value { font-size: 0.9rem; font-weight: 700; color: #fff; }
 
 /* Savings gauge */
 .savings-gauge { display: flex; flex-direction: column; gap: 6px; }
 .savings-gauge-header { display: flex; align-items: center; justify-content: space-between; }
-.savings-gauge-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 500; }
-.savings-gauge-value { font-size: 1rem; font-weight: 700; }
-.savings-gauge-hint  { font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+.savings-gauge-label { font-size: 0.8rem; color: var(--text-secondary); font-weight: 500; }
+.savings-gauge-value { font-size: 1rem; font-weight: 700; color: #fff; }
+.savings-gauge-hint  { font-size: 0.75rem; color: var(--text-muted); }
 
 /* Categories */
 .money-categories { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
 .money-category-title {
-  font-size: 0.78rem; font-weight: 600;
+  font-size: 0.78rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.35);
+  color: var(--text-muted);
 }
 .money-category-list { display: flex; flex-direction: column; gap: 10px; }
 .money-category-item { display: flex; flex-direction: column; gap: 4px; }
 .money-category-top { display: flex; align-items: center; justify-content: space-between; }
 .money-category-name   { font-size: 0.8rem; color: #fff; font-weight: 500; }
-.money-category-amount { font-size: 0.8rem; font-weight: 700; color: #F59E0B; }
-.money-category-pct    { font-size: 0.7rem; color: rgba(255,255,255,0.25); }
+.money-category-amount { font-size: 0.8rem; font-weight: 700; color: var(--lavender); }
+.money-category-pct    { font-size: 0.7rem; color: var(--text-muted); }
