@@ -64,24 +64,7 @@ export default function MacroRings({ consumed, targets, percentConsumed }) {
         })}
       </div>
 
-      {/* Mini progress bars */}
-      <div className="macro-bars">
-        {MACROS.map(m => {
-          const pct = Math.min(percentConsumed?.[m.key] ?? 0, 100);
-          return (
-            <div key={m.key} className="macro-bar-row">
-              <span className="macro-bar-label">{m.label}</span>
-              <div className="progress-bar" style={{ flex: 1 }}>
-                <div
-                  className="progress-bar-fill"
-                  style={{ width: `${pct}%`, background: m.color }}
-                />
-              </div>
-              <span className="macro-bar-pct">{pct}%</span>
-            </div>
-          );
-        })}
-      </div>
+
     </div>
   );
 }
