@@ -5,7 +5,7 @@ import {
   Target, Dumbbell, Banknote, Landmark, Flame, CheckCircle,
   TrendingUp, Zap, Award, ArrowRight, Activity, Sun,
   Beef, Wheat, Droplets, Salad, ChevronLeft, ChevronRight,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon, X
 } from 'lucide-react';
 import './DashboardPage.css';
 
@@ -35,6 +35,7 @@ export default function DashboardPage() {
   const [quote] = useState(() => MOTIVATIONAL_QUOTES[Math.floor(Math.random() * MOTIVATIONAL_QUOTES.length)]);
   const [greeting, setGreeting] = useState('');
   const [calMonth, setCalMonth] = useState(new Date());
+  const [dayViews, setDayViews] = useState({});
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -201,17 +202,58 @@ export default function DashboardPage() {
               const isToday = dateStr === new Date().toISOString().split('T')[0];
               
               let statusClass = 'none';
+              let calPct=0, proPct=0, fatPct=0, fibPct=0;
+              
               if (log) {
                 const pct = (log.totalCalories / (user?.dailyCalories || 1)) * 100;
                 if (pct >= 90) statusClass = 'perfect';
                 else if (pct >= 50) statusClass = 'good';
                 else statusClass = 'low';
+                
+                calPct = Math.min((log.totalCalories / (user?.dailyCalories || 1)) * 100, 100).toFixed(0);
+                proPct = Math.min((log.totalProtein / (user?.dailyProtein || 1)) * 100, 100).toFixed(0);
+                fatPct = Math.min((log.totalFats / (user?.dailyFats || 1)) * 100, 100).toFixed(0);
+                fibPct = Math.min((log.totalFiber / (user?.dailyFiber || 1)) * 100, 100).toFixed(0);
               }
+              
+              const viewIndex = dayViews[dateStr] || 0;
               
               return (
                 <div key={day} className={`dash-cal-day status-${statusClass} ${isToday ? 'is-today' : ''}`}>
-                  <span className="dash-cal-date">{day}</span>
-                  {log && <span className="dash-cal-dot" />}
+                  {viewIndex === 0 && <span className="dash-cal-date animate-fade-in">{day}</span>}
+                  
+                  {viewIndex === 1 && (
+                    <div className="dash-cal-inline-macro animate-fade-in" style={{color: '#FF6B35'}}>
+                      <Flame size={12} /><span>{calPct}%</span>
+                    </div>
+                  )}
+                  {viewIndex === 2 && (
+                    <div className="dash-cal-inline-macro animate-fade-in" style={{color: '#C4B5FD'}}>
+                      <Beef size={12} /><span>{proPct}%</span>
+                    </div>
+                  )}
+                  {viewIndex === 3 && (
+                    <div className="dash-cal-inline-macro animate-fade-in" style={{color: '#f472b6'}}>
+                      <Droplets size={12} /><span>{fatPct}%</span>
+                    </div>
+                  )}
+                  {viewIndex === 4 && (
+                    <div className="dash-cal-inline-macro animate-fade-in" style={{color: '#C8F135'}}>
+                      <Salad size={12} /><span>{fibPct}%</span>
+                    </div>
+                  )}
+
+                  {log && (
+                    <>
+                      <button className="dash-cal-cycle-btn" onClick={(e) => {
+                        e.stopPropagation();
+                        setDayViews(prev => ({ ...prev, [dateStr]: ((prev[dateStr] || 0) + 1) % 5 }));
+                      }}>
+                        ▶
+                      </button>
+                      {viewIndex === 0 && <span className="dash-cal-dot animate-fade-in" />}
+                    </>
+                  )}
                 </div>
               );
             })}
