@@ -1,9 +1,22 @@
 .gym-page-wrap { display: flex; flex-direction: column; height: calc(100vh - var(--header-height) - 48px); gap: 0; }
 .gym-page-wrap .tracker-layout { flex: 1; min-height: 0; }
 
+.gym-right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+  min-height: 0;
+}
 
-
-.gym-meals-panel { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+.gym-meals-panel {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  min-height: 0;
+}
 .gym-meals-header { display: flex; align-items: center; justify-content: space-between; }
 .gym-meals-header h3 {
   font-size: 0.78rem; font-weight: 700;
@@ -11,7 +24,14 @@
   color: var(--lime);
 }
 
-.gym-meals-list { display: flex; flex-direction: column; gap: 5px; }
+.gym-meals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
 
 .gym-meal-item {
   display: flex; align-items: center; justify-content: space-between;
