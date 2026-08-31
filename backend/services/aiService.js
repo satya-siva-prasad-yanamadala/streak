@@ -51,7 +51,7 @@ Rules:
 
   try {
     const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+      model: 'openai/gpt-oss-120b',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.1,
       max_tokens: 1024,
@@ -60,8 +60,15 @@ Rules:
     const raw = completion.choices[0]?.message?.content?.trim();
     if (!raw) return null;
 
-    // Strip markdown code fences if model adds them
-    const cleaned = raw.replace(/^```(?:json)?\n?/i, '').replace(/\n?```$/i, '').trim();
+    let cleaned = raw.replace(/^```(?:json)?\n?/i, '').replace(/\n?```$/i, '').trim();
+    
+    // Extract just the array if the model includes conversational text
+    const startIndex = cleaned.indexOf('[');
+    const endIndex = cleaned.lastIndexOf(']');
+    if (startIndex !== -1 && endIndex !== -1 && endIndex >= startIndex) {
+      cleaned = cleaned.substring(startIndex, endIndex + 1);
+    }
+
     const parsed = JSON.parse(cleaned);
 
     if (!Array.isArray(parsed) || parsed.length === 0) return null;
@@ -106,7 +113,7 @@ Give a short, friendly tip. Use 1-2 emojis. Be concise — max 2-3 sentences.`;
 
   try {
     const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+      model: 'openai/gpt-oss-120b',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
       max_tokens: 150,
@@ -149,19 +156,17 @@ function buildGymMessage(consumed, targets, remaining, percentLeft, newFoods, ti
 
 **📊 Today's Nutrition Summary:**
 
-| Macro | Consumed | Target | Remaining |
-|-------|----------|--------|-----------|
-| 🔥 Calories | ${consumed.calories.toFixed(0)} kcal | ${targets.dailyCalories} kcal | ${remaining.calories.toFixed(0)} kcal |
-| 💪 Protein | ${consumed.protein.toFixed(1)}g | ${targets.dailyProtein}g | ${remaining.protein.toFixed(1)}g |
-| 🍞 Carbs | ${consumed.carbs.toFixed(1)}g | ${targets.dailyCarbs}g | ${remaining.carbs.toFixed(1)}g |
-| 🥑 Fats | ${consumed.fats.toFixed(1)}g | ${targets.dailyFats}g | ${remaining.fats.toFixed(1)}g |
-| 🌾 Fiber | ${consumed.fiber.toFixed(1)}g | ${targets.dailyFiber}g | ${remaining.fiber.toFixed(1)}g |
+🔥 **Calories:** ${consumed.calories.toFixed(0)} / ${targets.dailyCalories} kcal *(Remaining: ${remaining.calories.toFixed(0)} kcal)*
+💪 **Protein:** ${consumed.protein.toFixed(1)}g / ${targets.dailyProtein}g *(Remaining: ${remaining.protein.toFixed(1)}g)*
+🍞 **Carbs:** ${consumed.carbs.toFixed(1)}g / ${targets.dailyCarbs}g *(Remaining: ${remaining.carbs.toFixed(1)}g)*
+🥑 **Fats:** ${consumed.fats.toFixed(1)}g / ${targets.dailyFats}g *(Remaining: ${remaining.fats.toFixed(1)}g)*
+🌾 **Fiber:** ${consumed.fiber.toFixed(1)}g / ${targets.dailyFiber}g *(Remaining: ${remaining.fiber.toFixed(1)}g)*
 
 ${tip}`;
 }
 
 // ─────────────────────────────────────────────
-// Money message (unchanged)
+// Money message
 // ─────────────────────────────────────────────
 const MONEY_TIPS = [
   '💰 Consider the 50/30/20 rule: 50% needs, 30% wants, 20% savings.',
@@ -180,16 +185,13 @@ function generateMoneyMessage(entry, monthlySalary, monthlyExpenses, monthlyInco
   const action = entry.type === 'expense' ? 'Spent' : 'Received';
 
   return `${emoji} **${action}:** ₹${entry.amount} — ${entry.category}
-${entry.description ? `📝 *${entry.description}*` : ''}
-
+${entry.description ? `📝 *${entry.description}*\n` : ''}
 **📊 This Month's Summary:**
 
-| | Amount |
-|---|---|
-| 💰 Monthly Salary | ₹${monthlySalary.toLocaleString('en-IN')} |
-| 💸 Total Expenses | ₹${monthlyExpenses.toLocaleString('en-IN')} |
-| 📥 Extra Income | ₹${monthlyIncome.toLocaleString('en-IN')} |
-| 🏦 Net Savings | ₹${savings.toLocaleString('en-IN')} (${savingsRate}% of salary) |
+💰 **Monthly Salary:** ₹${monthlySalary.toLocaleString('en-IN')}
+💸 **Total Expenses:** ₹${monthlyExpenses.toLocaleString('en-IN')}
+📥 **Extra Income:** ₹${monthlyIncome.toLocaleString('en-IN')}
+🏦 **Net Savings:** ₹${savings.toLocaleString('en-IN')} (${savingsRate}% of salary)
 
 ${tip}`;
 }

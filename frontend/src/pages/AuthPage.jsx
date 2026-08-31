@@ -5,17 +5,17 @@ import { Zap, Dumbbell, Wallet, BarChart2, Rocket, User, Flame, Scale } from 'lu
 import './AuthPage.css';
 
 const ACTIVITY_LEVELS = [
-  { value: 'sedentary',         label: 'Sedentary (little/no exercise)' },
-  { value: 'lightly_active',    label: 'Lightly Active (1-3 days/week)' },
+  { value: 'sedentary', label: 'Sedentary (little/no exercise)' },
+  { value: 'lightly_active', label: 'Lightly Active (1-3 days/week)' },
   { value: 'moderately_active', label: 'Moderately Active (3-5 days/week)' },
-  { value: 'very_active',       label: 'Very Active (6-7 days/week)' },
-  { value: 'extra_active',      label: 'Extra Active (athlete/physical job)' },
+  { value: 'very_active', label: 'Very Active (6-7 days/week)' },
+  { value: 'extra_active', label: 'Extra Active (athlete/physical job)' },
 ];
 
 const FITNESS_GOALS = [
-  { value: 'lose_weight',  label: 'Lose Weight', icon: Flame, desc: 'Calorie deficit diet' },
-  { value: 'maintain',     label: 'Maintain',    icon: Scale, desc: 'Balanced nutrition' },
-  { value: 'gain_muscle',  label: 'Gain Muscle', icon: Dumbbell, desc: 'High protein, calorie surplus' },
+  { value: 'lose_weight', label: 'Lose Weight', icon: Flame, desc: 'Calorie deficit diet' },
+  { value: 'maintain', label: 'Maintain', icon: Scale, desc: 'Balanced nutrition' },
+  { value: 'gain_muscle', label: 'Gain Muscle', icon: Dumbbell, desc: 'High protein, calorie surplus' },
 ];
 
 const initialRegister = {
@@ -279,7 +279,7 @@ export default function AuthPage() {
                         className={`auth-goal-btn ${formData.fitnessGoal === g.value ? 'active' : ''}`}
                         onClick={() => set('fitnessGoal', g.value)}
                       >
-                        <span className="auth-goal-label"><Icon size={16} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: 6 }}/>{g.label}</span>
+                        <span className="auth-goal-label"><Icon size={16} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: 6 }} />{g.label}</span>
                         <span className="auth-goal-desc">{g.desc}</span>
                       </button>
                     );
@@ -298,7 +298,7 @@ export default function AuthPage() {
               <div className="auth-form-actions">
                 <button type="button" className="btn btn-ghost" onClick={() => setStep(1)}>← Back</button>
                 <button id="reg-submit-btn" type="submit" className="btn btn-primary auth-submit" disabled={loading}>
-                  {loading ? <><div className="spinner" /> Creating...</> : <><Rocket size={18} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: 6 }}/> Create Account</>}
+                  {loading ? <><div className="spinner" /> Creating...</> : <><Rocket size={18} style={{ display: 'inline', verticalAlign: 'text-bottom', marginRight: 6 }} /> Create Account</>}
                 </button>
               </div>
             </form>
