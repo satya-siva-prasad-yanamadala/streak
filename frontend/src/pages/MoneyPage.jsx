@@ -170,6 +170,36 @@ export default function MoneyPage() {
               </div>
             )}
           </div>
+
+          {/* Transaction History */}
+          <div className="money-history glass-card">
+            <h3 className="money-history-title">Recent Transactions</h3>
+            {!monthData?.logs || monthData.logs.length === 0 ? (
+              <div className="empty-state" style={{ padding: '20px 0', minHeight: '100px' }}>
+                <Receipt size={32} className="empty-state-icon" />
+                <div className="empty-state-desc">No transactions this month</div>
+              </div>
+            ) : (
+              <div className="money-history-list">
+                {monthData.logs.map(log => (
+                  <div key={log._id} className="money-history-item">
+                    <div className="money-history-left">
+                      <span className="money-history-cat">{log.category}</span>
+                      <span className="money-history-desc">{log.description || (log.type === 'income' ? 'Income' : 'Expense')}</span>
+                    </div>
+                    <div className="money-history-right">
+                      <span className={`money-history-amt ${log.type}`}>
+                        {log.type === 'expense' ? '-' : '+'}₹{log.amount.toLocaleString('en-IN')}
+                      </span>
+                      <span className="money-history-date">
+                        {new Date(log.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

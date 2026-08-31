@@ -51,3 +51,34 @@
 .money-category-name   { font-size: 0.8rem; color: #fff; font-weight: 500; }
 .money-category-amount { font-size: 0.8rem; font-weight: 700; color: var(--lavender); }
 .money-category-pct    { font-size: 0.7rem; color: var(--text-muted); }
+
+/* Transaction History */
+.money-history { padding: 16px; display: flex; flex-direction: column; gap: 12px; max-height: 300px; overflow-y: auto; }
+.money-history-title {
+  font-size: 0.78rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--text-muted);
+  position: sticky;
+  top: 0;
+  background: var(--bg-card);
+  z-index: 2;
+  margin-top: -8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.money-history-list { display: flex; flex-direction: column; gap: 8px; }
+.money-history-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius-md);
+}
+.money-history-left { display: flex; flex-direction: column; gap: 2px; }
+.money-history-cat { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+.money-history-desc { font-size: 0.85rem; color: #fff; font-weight: 500; }
+.money-history-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.money-history-amt { font-size: 0.9rem; font-weight: 700; }
+.money-history-date { font-size: 0.7rem; color: rgba(255,255,255,0.4); }
+.money-history-amt.expense { color: #ef4444; }
+.money-history-amt.income { color: #10b981; }

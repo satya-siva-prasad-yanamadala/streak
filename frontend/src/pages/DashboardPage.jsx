@@ -249,7 +249,6 @@ export default function DashboardPage() {
                         e.stopPropagation();
                         setDayViews(prev => ({ ...prev, [dateStr]: ((prev[dateStr] || 0) + 1) % 5 }));
                       }}>
-                        ▶
                       </button>
                       {viewIndex === 0 && <span className="dash-cal-dot animate-fade-in" />}
                     </>
